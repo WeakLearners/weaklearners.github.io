@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en" data-concept="a">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sean · weaklearners</title>
+<meta name="description" content="Sean. Every idea starts out weak. I keep score until it isn't.">
+<meta property="og:title" content="Sean · weaklearners">
+<meta property="og:description" content="Sean. Every idea starts out weak. I keep score until it isn't.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://weaklearners.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23b3322a'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23f1eadb'%3E%EC%A7%84%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=JetBrains+Mono:wght@400&family=Noto+Serif+KR:wght@300;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* Each visit draws one of three artworks. The whole page then takes that artwork's
+   palette and type, so the content below reads as the same world, not a template.
+   Each look is deliberately single-theme; every colour is set explicitly. */
+:root,[data-concept="a"]{
+  --bg:#0f0e0c;--fg:#efe9dd;--dim:#8f8878;--accent:#ff6a3d;--rule:#2b2823;--panel:#171512;
+  --display:"Fraunces",Georgia,serif;--body:"Fraunces",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --body-size:19px;--display-weight:900;--display-track:-.02em;color-scheme:dark;
+}
+[data-concept="b"]{
+  --bg:#f1eadb;--fg:#1b1916;--dim:#6f675a;--accent:#b3322a;--rule:rgba(27,25,22,.16);--panel:#e9e0cb;
+  --display:"Cormorant Garamond",Georgia,serif;--body:"Cormorant Garamond",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --body-size:22px;--display-weight:600;--display-track:-.01em;color-scheme:light;
+}
+[data-concept="c"]{
+  --win:#f2c46b;--loss:#7d97b6;--bg:#07080b;--fg:#eceae4;--dim:#7d8392;--accent:#f2c46b;--rule:#1d212a;--panel:#0e1016;
+  --display:"Instrument Serif",Georgia,serif;--body:"Instrument Serif",Georgia,serif;--mono:"Space Mono",ui-monospace,Menlo,monospace;
+  --body-size:21px;--display-weight:400;--display-track:-.01em;color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font-family:var(--body);font-size:var(--body-size);line-height:1.5;overflow-x:hidden;transition:background .4s,color .4s}
+a{color:inherit;text-underline-offset:4px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.label{font:400 12px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:0}
+
+/* ---------- top bar (over the artwork) ---------- */
+.top{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+  padding:calc(20px + env(safe-area-inset-top,0px)) 24px 0;pointer-events:none}
+.top > *{pointer-events:auto}
+.mark{font:400 12px/1.6 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-decoration:none}
+.rot{display:grid;justify-items:end;gap:6px;position:relative}
+.rot-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.rot button{font:400 12px/1 var(--mono);letter-spacing:.08em;color:var(--dim);background:none;border:1px solid var(--rule);border-radius:99px;padding:8px 12px;cursor:pointer}
+.rot button:hover{color:var(--fg);border-color:var(--dim)}
+.rot .count{font:400 12px/1 var(--mono);letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.rot .next{color:var(--fg)}
+.about{position:absolute;top:calc(100% + 8px);right:0;width:min(340px,calc(100vw - 32px));background:var(--panel);border:1px solid var(--rule);
+  padding:16px;font:400 13px/1.65 var(--mono);color:var(--fg);box-shadow:0 12px 40px rgba(0,0,0,.18)}
+.about b{display:block;font:var(--display-weight) 22px/1.1 var(--display);margin-bottom:8px;letter-spacing:var(--display-track)}
+
+/* ---------- hero A: boosting field ---------- */
+.hero{position:relative;height:calc(100svh - 120px);min-height:440px;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.hero-a canvas{cursor:crosshair}
+.hero-a .hint{position:absolute;left:50%;top:calc(24px + env(safe-area-inset-top,0px));transform:translateX(-50%);margin:0;font:400 12px/1 var(--mono);color:var(--dim);letter-spacing:.1em;white-space:nowrap}
+.hero-a .hud{position:absolute;left:24px;right:24px;bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;pointer-events:none}
+.hero-a .line{margin:0;max-width:30ch;font-weight:300;font-size:clamp(17px,2.1vw,22px);line-height:1.35}
+.hero-a .stats{margin:0;font:400 12px/1.7 var(--mono);color:var(--dim);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.hero-a .stats b{color:var(--fg);font-weight:400}
+
+/* ---------- hero B: ink and paper ---------- */
+.hero-b .vert{position:absolute;right:30px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font:300 15px/1.9 "Noto Serif KR",serif;letter-spacing:.3em;color:var(--dim)}
+.hero-b .cap{position:absolute;left:24px;bottom:24px;max-width:32ch;margin:0;font-size:clamp(18px,2vw,22px);line-height:1.35;font-style:italic}
+.hero-b .cap span{display:block;font:400 12px/1.8 var(--mono);font-style:normal;color:var(--dim);letter-spacing:.08em;margin-top:10px}
+.hero-b .count{position:absolute;right:24px;bottom:24px;margin:0;font:400 12px/1 var(--mono);color:var(--dim);letter-spacing:.08em;font-variant-numeric:tabular-nums}
+
+/* ---------- hero C: 3,680 ---------- */
+.hero-c{position:relative;height:180svh}
+.hero-c .stage{position:sticky;top:0;height:100svh;min-height:520px;overflow:hidden}
+.hero-c canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.hero-c .big{position:absolute;left:24px;bottom:24px;font-size:clamp(64px,13vw,190px);line-height:.85;letter-spacing:-.03em;pointer-events:none;transition:opacity .4s}
+.hero-c .big small{display:block;font:400 12px/1.8 var(--mono);letter-spacing:.1em;color:var(--dim);margin-top:14px;text-transform:uppercase}
+.hero-c .split{position:absolute;inset:auto 24px 24px 24px;display:flex;justify-content:space-around;pointer-events:none;opacity:0;transition:opacity .5s}
+.hero-c .split div{text-align:center;font:400 12px/1.9 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.hero-c .split b{display:block;font:400 clamp(34px,5vw,64px)/1 var(--display);letter-spacing:-.01em;text-transform:none}
+.hero-c .split .w b{color:var(--win)}.hero-c .split .l b{color:var(--loss)}
+.hero-c .quote{position:absolute;left:50%;top:16%;transform:translateX(-50%);width:min(620px,calc(100% - 32px));text-align:center;font-size:clamp(24px,3.2vw,38px);line-height:1.2;opacity:0;transition:opacity .5s;pointer-events:none}
+.hero-c .quote i{color:var(--accent)}
+
+/* ---------- identity strip (same under all three artworks) ---------- */
+.id-strip{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px 24px;
+  max-width:1080px;margin:0 auto;padding:20px clamp(16px,5vw,64px);border-bottom:1px solid var(--rule)}
+.id-line{margin:0;font-size:var(--body-size)}
+.id-links{display:flex;gap:20px;font:400 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.id-links a{padding-block:10px}
+
+/* ---------- content ---------- */
+.content{padding-inline:clamp(16px,5vw,64px)}
+.content section{max-width:1080px;margin:0 auto;padding-block:clamp(64px,10vw,128px);border-top:1px solid var(--rule);display:grid;gap:clamp(20px,3vw,32px)}
+.content section:first-child{border-top:0}
+h2,.h2{margin:0;font:var(--display-weight) clamp(34px,5.4vw,68px)/1.02 var(--display);letter-spacing:var(--display-track);text-wrap:balance;max-width:20ch}
+h2 em,.h2 em{color:var(--accent);font-style:italic}
+.prose{display:grid;gap:14px;max-width:58ch}
+.prose p{margin:0}
+.prose .quiet{color:var(--dim)}
+
+.who-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,5vw,72px);align-items:end}
+.seal{display:inline-grid;place-items:center;width:.9em;height:.9em;margin-left:.18em;vertical-align:.02em;background:#b3322a;color:#f1eadb;
+  font:900 .44em/1 "Noto Serif KR",serif;transform:rotate(-3deg);border-radius:2px}
+
+.ledger{display:grid;border-top:1px solid var(--fg)}
+.row{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr) auto;gap:clamp(12px,3vw,40px);padding-block:20px;border-bottom:1px solid var(--rule);align-items:baseline}
+.row .was{font:400 clamp(19px,2vw,24px)/1.25 var(--display);text-decoration:line-through;text-decoration-color:var(--accent);text-decoration-thickness:2px;color:var(--dim)}
+.row .now{font-size:.9em;line-height:1.45}
+.row .now strong{font-weight:600}
+[data-concept="c"] .row .now strong{font-weight:400;color:var(--accent)}
+.row .num{font:400 15px/1 var(--mono);color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.loves{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.loves article{background:var(--bg);padding:clamp(20px,3vw,32px);display:grid;gap:12px;align-content:start;min-width:0}
+.loves h3{margin:0;font:var(--display-weight) clamp(26px,3vw,34px)/1.05 var(--display);letter-spacing:var(--display-track)}
+.loves p{margin:0}
+.figs{display:flex;gap:24px;flex-wrap:wrap;margin-top:4px}
+.figs div{display:grid;gap:2px}
+.figs b{font:400 22px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--fg)}
+.figs span{font:400 12px/1.4 var(--mono);color:var(--dim);letter-spacing:.04em}
+
+.pieces{display:grid;border-top:1px solid var(--fg)}
+.piece{display:grid;grid-template-columns:3ch minmax(0,1fr) auto;gap:clamp(12px,3vw,32px);padding-block:22px;border-bottom:1px solid var(--rule);text-decoration:none;align-items:baseline}
+.piece .n{font:400 12px/1 var(--mono);color:var(--dim)}
+.piece .t{display:grid;gap:6px}
+.piece .t b{font:var(--display-weight) clamp(24px,3vw,36px)/1.08 var(--display);letter-spacing:var(--display-track)}
+.piece .t span{color:var(--dim);font-size:.9em}
+.piece .go{font:400 12px/1 var(--mono);letter-spacing:.1em;color:var(--dim);text-transform:uppercase;white-space:nowrap}
+.piece:hover .go,.piece:hover b{color:var(--accent)}
+
+.contact .addr{font:var(--display-weight) clamp(28px,5.6vw,72px)/1.05 var(--display);letter-spacing:var(--display-track);margin:0;overflow-wrap:break-word;user-select:all}
+.contact .row2{display:flex;gap:12px 28px;align-items:center;flex-wrap:wrap}
+.contact button{font:400 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;background:var(--fg);color:var(--bg);border:0;border-radius:99px;padding:10px 16px;cursor:pointer}
+.contact button:hover{background:var(--accent)}
+.contact .gh{font:400 13px/1 var(--mono);letter-spacing:.04em}
+.contact .remember{color:var(--dim);max-width:44ch;margin:0}
+
+footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font:400 12px/1.6 var(--mono);letter-spacing:.08em;color:var(--dim);border-top:1px solid var(--rule)}
+
+@media (max-width:760px){
+  .who-grid,.loves{grid-template-columns:minmax(0,1fr)}
+  .row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"was num" "now now";gap:6px 16px}
+  .row .was{grid-area:was}.row .now{grid-area:now}.row .num{grid-area:num}
+  .piece{grid-template-columns:3ch minmax(0,1fr)}
+  .piece .go{display:none}
+}
+@media (max-width:640px){
+  .top{padding-inline:16px}
+  .rot .long{display:none}
+  .hero-a .stats,.hero-a .hint,.hero-b .vert,.hero-b .count{display:none}
+  .hero-a .hud,.hero-b .cap,.hero-c .big{left:16px;right:16px;bottom:16px}
+  .hero-b .count{bottom:16px}
+  .hero-c .split{left:16px;right:16px;bottom:16px}
+}
+@media (min-width:641px){.rot .short{display:none}}
+.hero-a .hud::before,.hero-b .cap::before{content:"";position:absolute;inset:-48px -24px -26px;z-index:-1;
+  background:linear-gradient(to top,var(--bg) 35%,transparent)}
+.hero-a .hud,.hero-b .cap{isolation:isolate}
+@media (pointer:coarse){.rot button,.contact button{min-height:44px}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important}
+  .hero-c{height:100svh}
+}
+@media (max-width:1100px){.hero-a .hint{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="#who">weaklearners</a>
+  <div class="rot">
+    <div class="rot-row">
+      <span class="count" id="count">1 of 3</span>
+      <button type="button" class="next" id="next"><span class="long" id="next-long">Two other learners drew this differently →</span><span class="short">Another →</span></button>
+      <button type="button" id="pause" aria-pressed="false">Pause</button>
+      <button type="button" id="about-btn" aria-label="About this artwork" aria-expanded="false" aria-controls="about">?</button>
+    </div>
+    <div class="about" id="about" hidden><b id="about-name"></b><span id="about-text"></span></div>
+  </div>
+</header>
+
+<div id="hero"></div>
+
+<!-- IDENTITY LINE: edit the sentence below. It shows under all three artworks. -->
+<div class="id-strip">
+  <p class="id-line">Sean. Finishing a master's in computer science. Building on AI models.</p>
+  <nav class="id-links" aria-label="Site links"><a href="#writing">Writing</a><a href="#contact">Email</a><a href="https://github.com/weaklearners">GitHub</a></nav>
+</div>
+
+<main class="content">
+  <section id="who">
+    <p class="label">Who I am</p>
+    <div class="who-grid">
+      <h1 class="h2">I'm Sean.<span class="seal" aria-hidden="true">진</span></h1>
+      <div class="prose">
+        <p>I'm finishing a master's in computer science. I build software that runs while I'm asleep. And I keep score on myself.</p>
+        <p class="quiet">I'm looking for work building applications on top of AI models.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="think">
+    <p class="label">How I think</p>
+    <h2>Every idea starts out <em>weak.</em> I keep score until it gets strong, or a number kills it.</h2>
+    <div class="prose"><p class="quiet">I keep a list. A belief goes on it the day the data stops agreeing with me.</p></div>
+    <div class="ledger">
+      <div class="row">
+        <span class="was">Gibraltar is my map. 68% win rate.</span>
+        <span class="now"><strong>55.1% over 147 games.</strong> The 68% came from a small early sample. Across 32 maps, none of the differences are real.</span>
+        <span class="num">55.1%</span>
+      </div>
+      <div class="row">
+        <span class="was">I play best at 9 AM and 2 PM.</span>
+        <span class="now"><strong>2 PM is below my average.</strong> 45.7% over 223 games. The story came first. The numbers didn't follow.</span>
+        <span class="num">45.7%</span>
+      </div>
+      <div class="row">
+        <span class="was">Noon is my one real bad hour.</span>
+        <span class="now"><strong>Still bad. Not proven.</strong> It passed the test at 200 games. Ten games later, it didn't.</span>
+        <span class="num">p 0.0105</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="loves">
+    <p class="label">Things I love</p>
+    <div class="loves">
+      <article>
+        <h3>Overwatch</h3>
+        <p>Every match written down since November 2024. The map, the heroes, the result, who killed me, and how the game felt.</p>
+        <div class="figs">
+          <div><b>3,680</b><span>matches</span></div>
+          <div><b>22</b><span>months</span></div>
+          <div><b>48.34%</b><span>won, sadly</span></div>
+        </div>
+      </article>
+      <article>
+        <h3>Explaining things plainly</h3>
+        <p>If I can't explain an idea to a smart friend who has never met it, I don't understand it yet. Feynman and Sagan set the bar. I use short sentences and a real example before the formula.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="writing">
+    <p class="label">Writing</p>
+    <div class="pieces">
+      <a class="piece" href="writing/weak-learner.html">
+        <span class="n">01</span>
+        <span class="t"><b>What a weak learner is</b><span>Why this site is named after something that's barely better than a coin flip.</span></span>
+        <span class="go">Read →</span>
+      </a>
+      <a class="piece" href="writing/noon.html">
+        <span class="n">02</span>
+        <span class="t"><b>Noon was my worst hour. Then I counted.</b><span>The one pattern in my games that passed the test. Until ten more games came in.</span></span>
+        <span class="go">Read →</span>
+      </a>
+      <a class="piece" href="writing/48-42.html">
+        <span class="n">03</span>
+        <span class="t"><b>Below half?</b><span>Last week I couldn't prove I was worse than a coin. 41 games later, I can.</span></span>
+        <span class="go">Read →</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <p class="label">Say hello</p>
+    <p class="addr" id="email">weaklearners<wbr>@proton.me</p>
+    <div class="row2">
+      <button type="button" id="copy">Copy address</button>
+      <a class="gh" href="https://github.com/weaklearners">github.com/weaklearners →</a>
+    </div>
+    <p class="remember">Or don't write. Just remember the guy who kept score.</p>
+  </section>
+</main>
+
+<footer>
+  <span>weaklearners · 2026</span>
+  <span id="foot-note" aria-live="polite"></span>
+</footer>
+
+<!-- ============ the three artworks ============ -->
+<template id="t-a">
+  <section class="hero hero-a" aria-label="Artwork: a live boosting model learning the name Sean">
+    <canvas></canvas>
+    <p class="hint">move to add data · click to reset</p>
+    <div class="hud">
+      <p class="line">Each line is barely better than a coin flip. Together, they learned my name.</p>
+      <p class="stats">learner <b data-n>0</b><br>newest line <b data-one>–</b><br>all together <b data-all>–</b></p>
+    </div>
+  </section>
+</template>
+
+<template id="t-b">
+  <section class="hero hero-b" aria-label="Artwork: brush strokes on paper forming the Korean words 응, 아니야">
+    <canvas></canvas>
+    <div class="vert" aria-hidden="true">한 획씩</div>
+    <p class="cap">Every stroke is barely better than chance. Enough of them, and the answer appears.
+      <span>응, 아니야 · “yeah… no” · tap for a fresh sheet</span></p>
+    <p class="count"><span data-n>0</span> strokes</p>
+  </section>
+</template>
+
+<template id="t-c">
+  <section class="hero-c" aria-label="Artwork: 3,680 dots, one per Overwatch match">
+    <div class="stage">
+      <canvas></canvas>
+      <div class="big" data-big>3,680<small>Overwatch matches · every one written down · Nov 2024 – Sep 2026</small></div>
+      <div class="quote" data-quote>Split them by result, and you get <i>almost a coin flip.</i></div>
+      <div class="split" data-split><div class="w"><b>1,779</b>won</div><div class="l"><b>1,901</b>lost</div></div>
+    </div>
+  </section>
+</template>
+
+<script>
+(() => {
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ALL = ['a','b','c'];
+const ABOUT = {
+  a: ['Boosting field', 'AdaBoost, running live. Hundreds of random straight cuts, each only slightly better than guessing, are weighted and stacked. All they are trained on is whether a point sits inside the letters of a name. The portrait is the model. Your cursor feeds it more data, so it sharpens wherever you look.'],
+  b: ['Ink and paper', 'Each brush stroke follows a weak rule. It lands on the hidden letters only 62% of the time and anywhere else the rest. No single stroke means anything. Thousands of them, on hanji-toned paper in the five traditional colours, resolve into 응, 아니야: “yeah… no.” Every weak learner is a tiny yes-or-no vote, wrong nearly half the time.'],
+  c: ['3,680', 'Every dot is one Overwatch match I logged. Gold for a win, slate for a loss. At rest they form one breathing bloom. Scroll, and they sort into two nearly equal halves: 48.34% won. The order is shuffled, not chronological. A self-portrait as a dataset.']
+};
+
+/* ---------- which artwork: new one each visit, unseen first ---------- */
+const store = {
+  get(){ try { return JSON.parse(localStorage.getItem('wl-seen') || '[]').filter(k => ALL.includes(k)); } catch(e){ return []; } },
+  set(v){ try { localStorage.setItem('wl-seen', JSON.stringify(v)); } catch(e){} }
+};
+let seen = store.get();
+function firstPick(){
+  const forced = location.hash.slice(1);
+  if (ALL.includes(forced)) return forced;
+  if (!seen.length) return 'a';
+  let pool = ALL.filter(k => !seen.includes(k));
+  if (!pool.length) { const last = seen[seen.length-1]; seen = []; pool = ALL.filter(k => k !== last); }
+  return pool[Math.random()*pool.length|0];
+}
+
+/* ---------- mount / unmount ---------- */
+const heroEl = document.getElementById('hero');
+let current = null, ctrl = null;
+function show(k){
+  if (ctrl) ctrl.abort();
+  ctrl = new AbortController();
+  current = k;
+  document.documentElement.dataset.concept = k;
+  try { localStorage.setItem('wl-current', k); } catch(e){}
+  heroEl.replaceChildren(document.getElementById('t-'+k).content.cloneNode(true));
+  if (!seen.includes(k)) seen.push(k);
+  store.set(seen);
+  INIT[k](heroEl.firstElementChild, ctrl.signal);
+  const n = seen.length;
+  document.getElementById('count').textContent = n + ' of 3';
+  document.getElementById('next-long').textContent =
+    n === 1 ? 'Two other learners drew this differently →' :
+    n === 2 ? 'One other learner drew this differently →' : 'You’ve seen all three. Again →';
+  document.getElementById('about-name').textContent = ABOUT[k][0];
+  document.getElementById('about-text').textContent = ABOUT[k][1];
+  document.getElementById('foot-note').textContent = 'This visit: ' + ABOUT[k][0];
+}
+document.getElementById('next').addEventListener('click', () => {
+  const unseen = ALL.filter(k => !seen.includes(k));
+  const k = unseen.length ? unseen[Math.random()*unseen.length|0] : ALL[(ALL.indexOf(current)+1) % 3];
+  if (!unseen.length) seen = [];
+  scrollTo({top:0});
+  show(k);
+});
+const aboutBtn = document.getElementById('about-btn'), about = document.getElementById('about');
+const setAbout = open => { about.hidden = !open; aboutBtn.setAttribute('aria-expanded', String(open)); };
+aboutBtn.addEventListener('click', () => setAbout(about.hidden));
+addEventListener('keydown', e => { if (e.key === 'Escape' && !about.hidden) { setAbout(false); aboutBtn.focus(); } });
+document.addEventListener('click', e => { if (!about.hidden && !about.contains(e.target) && !aboutBtn.contains(e.target)) setAbout(false); });
+
+/* ---------- pause: motion that starts alone and runs past 5 s needs a stop (WCAG 2.2.2) ---------- */
+let PAUSED = false;
+const pauseBtn = document.getElementById('pause');
+if (REDUCE) pauseBtn.hidden = true;
+pauseBtn.addEventListener('click', () => {
+  PAUSED = !PAUSED;
+  pauseBtn.textContent = PAUSED ? 'Play' : 'Pause';
+  pauseBtn.setAttribute('aria-pressed', String(PAUSED));
+});
+
+/* ---------- copy email ---------- */
+const copyBtn = document.getElementById('copy');
+copyBtn.addEventListener('click', () => {
+  const el = document.getElementById('email');
+  const done = () => { copyBtn.textContent = 'Copied'; setTimeout(() => copyBtn.textContent = 'Copy address', 1600); };
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); copyBtn.textContent = 'Selected'; };
+  try { navigator.clipboard.writeText(el.textContent).then(done, fallback); } catch(e) { fallback(); }
+});
+
+/* shared: run only while the artwork is on screen; redraw only when the width changes
+   (phones fire resize when the address bar slides, and that must not wipe the drawing) */
+function watch(root, sig, onResize){
+  const state = { visible: true };
+  const io = new IntersectionObserver(([e]) => { state.visible = e.isIntersecting; });
+  io.observe(root); sig.addEventListener('abort', () => io.disconnect());
+  let lastW = root.clientWidth, t;
+  addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { if (root.clientWidth !== lastW) { lastW = root.clientWidth; onResize(); } }, 200); }, {signal: sig});
+  return state;
+}
+
+const INIT = {};
+
+/* ================= A · Boosting field ================= */
+INIT.a = (root, sig) => {
+  const cv = root.querySelector('canvas'), cx = cv.getContext('2d');
+  const $n = root.querySelector('[data-n]'), $one = root.querySelector('[data-one]'), $all = root.querySelector('[data-all]');
+  const C = {warm:[255,106,61], cool:[159,184,201]};
+  const MAXL = 420, CANDS = 36;
+  let W, H, cell, gw, gh, score, mask, pts, learners, iter, alive = true;
+  sig.addEventListener('abort', () => alive = false);
+
+  function buildMask(){
+    const m = document.createElement('canvas'); m.width = W; m.height = H; const g = m.getContext('2d');
+    g.fillStyle = '#000'; g.fillRect(0,0,W,H); g.fillStyle = '#fff';
+    const size = Math.min(W*0.34, H*0.62);
+    g.font = `900 ${size}px Fraunces, Georgia, serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('Sean', W/2, H*0.48);
+    const d = g.getImageData(0,0,W,H).data;
+    mask = (x,y) => { x|=0; y|=0; if (x<0||y<0||x>=W||y>=H) return -1; return d[(y*W+x)*4] > 127 ? 1 : -1; };
+  }
+  function seedPts(n){
+    for (let i = 0; i < n; i++) {
+      // half the samples near the letters, so the task is learnable at this scale
+      let x, y;
+      if (Math.random() < .5) { x = W*(.18+Math.random()*.64); y = H*(.24+Math.random()*.48); }
+      else { x = Math.random()*W; y = Math.random()*H; }
+      pts.push({x, y, l: mask(x,y), w: 1});
+    }
+    const s = pts.reduce((a,p) => a+p.w, 0); pts.forEach(p => p.w /= s);
+  }
+  function reset(){
+    const DPR = Math.min(2, devicePixelRatio || 1);
+    W = root.clientWidth; H = root.clientHeight; cv.width = W*DPR; cv.height = H*DPR; cx.setTransform(DPR,0,0,DPR,0,0);
+    cell = W < 640 ? 7 : 6; gw = Math.ceil(W/cell); gh = Math.ceil(H/cell);
+    score = new Float32Array(gw*gh); pts = []; learners = []; iter = 0;
+    buildMask(); seedPts(W < 640 ? 420 : 720);
+  }
+  const h = (L,x,y) => (L.nx*x + L.ny*y - L.t) >= 0 ? L.s : -L.s;
+  function boostStep(){
+    let best = null, bestErr = 1;
+    for (let k = 0; k < CANDS; k++) {
+      const p = pts[(Math.random()*pts.length)|0], th = Math.random()*Math.PI;
+      const L = {nx: Math.cos(th), ny: Math.sin(th)}; L.t = L.nx*p.x + L.ny*p.y;
+      let e = 0; for (const q of pts) if (((L.nx*q.x + L.ny*q.y - L.t) >= 0 ? 1 : -1) !== q.l) e += q.w;
+      L.s = 1; if (e > .5) { e = 1-e; L.s = -1; }
+      if (e < bestErr) { bestErr = e; best = L; }
+    }
+    const e = Math.max(1e-6, bestErr);
+    best.a = .5*Math.log((1-e)/e); best.err = e; best.born = performance.now();
+    let s = 0; for (const q of pts) { q.w *= Math.exp(-best.a*q.l*h(best,q.x,q.y)); s += q.w; }
+    for (const q of pts) q.w /= s;
+    for (let j = 0; j < gh; j++) for (let i = 0; i < gw; i++) score[j*gw+i] += best.a*h(best,(i+.5)*cell,(j+.5)*cell);
+    learners.push(best); iter++;
+    if (learners.length > MAXL) { const o = learners.shift(); for (let j = 0; j < gh; j++) for (let i = 0; i < gw; i++) score[j*gw+i] -= o.a*h(o,(i+.5)*cell,(j+.5)*cell); }
+  }
+  function ensembleAcc(){
+    let ok = 0; for (const q of pts) { const i = Math.min(gw-1,(q.x/cell)|0), j = Math.min(gh-1,(q.y/cell)|0); if ((score[j*gw+i] >= 0 ? 1 : -1) === q.l) ok++; }
+    return ok/pts.length;
+  }
+  function lineEnds(L){
+    const out = [], {nx, ny, t} = L;
+    if (Math.abs(ny) > 1e-6) out.push([0, t/ny], [W, (t-nx*W)/ny]);
+    if (Math.abs(nx) > 1e-6) out.push([t/nx, 0], [(t-ny*H)/nx, H]);
+    return out.filter(([x,y]) => x >= -1 && x <= W+1 && y >= -1 && y <= H+1).slice(0,2);
+  }
+  function draw(now){
+    cx.fillStyle = 'rgb(15,14,12)'; cx.fillRect(0,0,W,H);
+    let sumA = 0; for (const L of learners) sumA += L.a; const k = 3/Math.max(1, Math.sqrt(sumA*4));
+    for (let j = 0; j < gh; j++) for (let i = 0; i < gw; i++) {
+      const v = Math.tanh(score[j*gw+i]*k);
+      cx.fillStyle = v > 0 ? `rgba(${C.warm},${v*.92})` : `rgba(${C.cool},${-v*.07})`;
+      const r = cell*(.28+.5*Math.abs(v));
+      cx.fillRect(i*cell+(cell-r)/2, j*cell+(cell-r)/2, r, r);
+    }
+    for (const L of learners.slice(-60)) {
+      const fresh = Math.max(0, 1-(now-L.born)/1200), e = lineEnds(L); if (e.length < 2) continue;
+      cx.strokeStyle = `rgba(239,233,221,${.035+fresh*.55})`; cx.lineWidth = fresh > 0 ? 1.2 : .6;
+      cx.beginPath(); cx.moveTo(e[0][0],e[0][1]); cx.lineTo(e[1][0],e[1][1]); cx.stroke();
+    }
+    const avg = 1/pts.length;
+    for (const q of pts) {
+      const r = Math.min(7, 1+Math.sqrt(q.w/avg)*1.1);
+      cx.fillStyle = q.l > 0 ? 'rgba(255,190,160,.8)' : 'rgba(159,184,201,.35)';
+      cx.beginPath(); cx.arc(q.x,q.y,r,0,6.283); cx.fill();
+    }
+  }
+  function hud(){
+    $n.textContent = iter;
+    const last = learners[learners.length-1];
+    if (last) $one.textContent = Math.round((1-last.err)*100) + '% weighted';
+    $all.textContent = Math.round(ensembleAcc()*100) + '%';
+  }
+  let lastAdd = 0;
+  cv.addEventListener('pointermove', e => {
+    const now = performance.now(); if (now-lastAdd < 28 || pts.length > 2600) return; lastAdd = now;
+    const r = cv.getBoundingClientRect();
+    for (let i = 0; i < 3; i++) { const x = e.clientX-r.left+(Math.random()-.5)*40, y = e.clientY-r.top+(Math.random()-.5)*40; pts.push({x, y, l: mask(x,y), w: 2/pts.length}); }
+    const s = pts.reduce((a,p) => a+p.w, 0); pts.forEach(p => p.w /= s);
+  }, {signal: sig});
+  const still = () => { for (let i = 0; i < 320; i++) boostStep(); learners.forEach(L => L.born = -1e9); draw(performance.now()); hud(); };
+  cv.addEventListener('click', () => { reset(); if (REDUCE) still(); }, {signal: sig});
+  const vis = watch(root, sig, () => { reset(); if (REDUCE) still(); });
+  function loop(now){
+    if (!alive) return;
+    if (vis.visible && (!PAUSED || iter < 1)) { const steps = iter < 60 ? 1 : iter < 200 ? 2 : 1; for (let i = 0; i < steps; i++) boostStep(); draw(now); if (iter%6 === 0) hud(); }
+    setTimeout(() => alive && requestAnimationFrame(loop), iter < 40 ? 120 : 45);
+  }
+  (document.fonts ? document.fonts.load('900 100px Fraunces', 'Sean') : Promise.resolve()).then(() => {
+    if (!alive) return; reset(); REDUCE ? still() : requestAnimationFrame(loop);
+  });
+};
+
+/* ================= B · Ink and paper ================= */
+INIT.b = (root, sig) => {
+  const cv = root.querySelector('canvas'), g = cv.getContext('2d'), $n = root.querySelector('[data-n]');
+  const INK = [27,25,22], ACC = [[36,79,134],[179,50,42],[201,152,44]];
+  const HIT = 0.62; // each stroke is a weak learner: 62% on-target, 38% anywhere
+  let W, H, inside, strokes, raf, TOTAL, alive = true;
+  sig.addEventListener('abort', () => { alive = false; cancelAnimationFrame(raf); });
+
+  function paper(){
+    g.fillStyle = '#f1eadb'; g.fillRect(0,0,W,H);
+    for (let i = 0; i < (W*H)/900; i++) {
+      const x = Math.random()*W, y = Math.random()*H, l = 6+Math.random()*38, a = Math.random()*6.283;
+      g.strokeStyle = `rgba(${Math.random() < .5 ? '120,100,70' : '255,255,250'},${.05+Math.random()*.08})`;
+      g.lineWidth = .4+Math.random()*.6; g.beginPath(); g.moveTo(x,y);
+      g.quadraticCurveTo(x+Math.cos(a+1)*l*.5, y+Math.sin(a+1)*l*.5, x+Math.cos(a)*l, y+Math.sin(a)*l); g.stroke();
+    }
+    const grd = g.createRadialGradient(W/2,H/2,Math.min(W,H)*.2,W/2,H/2,Math.max(W,H)*.75);
+    grd.addColorStop(0,'rgba(0,0,0,0)'); grd.addColorStop(1,'rgba(90,70,40,.10)'); g.fillStyle = grd; g.fillRect(0,0,W,H);
+  }
+  function buildMask(){
+    const m = document.createElement('canvas'); m.width = W; m.height = H; const q = m.getContext('2d');
+    const size = Math.min(W*(W < 640 ? .27 : .2), H*.3);
+    q.font = `900 ${size}px "Noto Serif KR", serif`; q.textAlign = 'center'; q.textBaseline = 'middle'; q.fillStyle = '#fff';
+    q.fillText('응,', W/2, H*.46-size*.55); q.fillText('아니야', W/2, H*.46+size*.55);
+    const d = q.getImageData(0,0,W,H).data, on = [];
+    for (let y = 0; y < H; y += 3) for (let x = 0; x < W; x += 3) if (d[(y*W+x)*4] > 127) on.push([x,y]);
+    inside = on;
+  }
+  function brush(x,y,ang,len,width,col,alpha){
+    const bristles = 5+(width|0), steps = Math.max(6, len/2|0);
+    for (let b = 0; b < bristles; b++) {
+      const off = (b/(bristles-1)-.5)*width, dry = Math.random();
+      let px = x+Math.cos(ang+1.57)*off, py = y+Math.sin(ang+1.57)*off, a = ang;
+      g.beginPath(); g.moveTo(px,py);
+      for (let s = 1; s <= steps; s++) {
+        if (s/steps > 1-dry*.35 && Math.random() < .5) break;
+        a += (Math.random()-.5)*.08; px += Math.cos(a)*len/steps; py += Math.sin(a)*len/steps; g.lineTo(px,py);
+      }
+      g.strokeStyle = `rgba(${col},${alpha*(.5+Math.random()*.5)})`; g.lineWidth = .6+Math.random()*1.1; g.lineCap = 'round'; g.stroke();
+    }
+  }
+  function oneStroke(){
+    let x, y;
+    if (Math.random() < HIT && inside.length) { [x,y] = inside[(Math.random()*inside.length)|0]; }
+    else { x = Math.random()*W; y = Math.random()*H; }
+    const col = Math.random() < .9 ? INK : ACC[(Math.random()*3)|0];
+    const ang = [0,1.5708,-.6,.6][(Math.random()*4)|0]+(Math.random()-.5)*.35;
+    brush(x,y,ang,8+Math.random()*22,2+Math.random()*4,col.join(','),col === INK ? .11 : .22);
+    strokes++;
+  }
+  function seal(){
+    const s = Math.min(46, W*.08), x = W*(W < 640 ? .76 : .68), y = H*.7;
+    g.save(); g.translate(x,y); g.rotate(-.04);
+    g.fillStyle = 'rgba(179,50,42,.86)'; g.fillRect(0,0,s,s);
+    g.fillStyle = '#f1eadb'; g.font = `900 ${s*.5}px "Noto Serif KR",serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('진', s/2, s/2+1); g.restore();
+  }
+  const count = () => { $n.textContent = strokes.toLocaleString(); };
+  function reset(){
+    cancelAnimationFrame(raf);
+    const DPR = Math.min(2, devicePixelRatio || 1); W = root.clientWidth; H = root.clientHeight;
+    cv.width = W*DPR; cv.height = H*DPR; g.setTransform(DPR,0,0,DPR,0,0);
+    strokes = 0; TOTAL = W < 640 ? 2600 : 4200; paper(); buildMask();
+    if (REDUCE) { for (let i = 0; i < TOTAL; i++) oneStroke(); seal(); count(); return; }
+    loop();
+  }
+  function loop(){
+    if (!alive) return;
+    const per = strokes < 200 ? 3 : strokes < 1200 ? 14 : 26;
+    for (let i = 0; i < per && strokes < TOTAL; i++) oneStroke();
+    count();
+    if (strokes < TOTAL) raf = requestAnimationFrame(loop); else seal();
+  }
+  let last = null;
+  cv.addEventListener('pointermove', e => {
+    const r = cv.getBoundingClientRect(), x = e.clientX-r.left, y = e.clientY-r.top;
+    if (last) { const dx = x-last[0], dy = y-last[1], d = Math.hypot(dx,dy); if (d > 4) brush(last[0],last[1],Math.atan2(dy,dx),Math.min(d,30),2.5,INK.join(','),.07); }
+    last = [x,y];
+  }, {signal: sig});
+  cv.addEventListener('pointerleave', () => last = null, {signal: sig});
+  cv.addEventListener('click', reset, {signal: sig});
+  watch(root, sig, reset);
+  (document.fonts ? document.fonts.load('900 100px "Noto Serif KR"', '응,아니야진') : Promise.resolve()).then(() => { if (alive) reset(); });
+};
+
+/* ================= C · 3,680 ================= */
+INIT.c = (root, sig) => {
+  const stage = root.querySelector('.stage'), cv = root.querySelector('canvas'), g = cv.getContext('2d');
+  const $big = root.querySelector('[data-big]'), $quote = root.querySelector('[data-quote]'), $split = root.querySelector('[data-split]');
+  const N = 3680, WINS = 1779; // verified totals; the order below is NOT chronological
+  const GA = Math.PI*(3-Math.sqrt(5));
+  let W, H, P = [], mouse = {x:-9e9, y:-9e9}, prog = 0, alive = true;
+  sig.addEventListener('abort', () => alive = false);
+  const rng = seed => () => { seed = (seed*16807) % 2147483647; return (seed-1)/2147483646; };
+  function layout(){
+    const DPR = Math.min(2, devicePixelRatio || 1); W = stage.clientWidth; H = stage.clientHeight;
+    cv.width = W*DPR; cv.height = H*DPR; g.setTransform(DPR,0,0,DPR,0,0);
+    const R = Math.min(W,H)*.40, spacing = R/Math.sqrt(N);
+    const r = rng(48), res = Array.from({length:N}, (_,i) => i < WINS);
+    for (let i = N-1; i > 0; i--) { const j = (r()*(i+1))|0; [res[i],res[j]] = [res[j],res[i]]; }
+    const sR = Math.min(W*.22, H*.30), sp2 = sR/Math.sqrt(Math.max(WINS, N-WINS));
+    const leftX = W*(W < 640 ? .28 : .32), rightX = W*(W < 640 ? .72 : .68), sy = H*.52;
+    let wi = 0, li = 0;
+    P = res.map((win,i) => {
+      const a = i*GA, d = spacing*Math.sqrt(i), k = win ? wi++ : li++, a2 = k*GA, d2 = sp2*Math.sqrt(k);
+      const ax = W/2+Math.cos(a)*d, ay = H*.47+Math.sin(a)*d;
+      return {win, ax, ay, bx:(win ? leftX : rightX)+Math.cos(a2)*d2, by: sy+Math.sin(a2)*d2, ph: r()*6.283, x: ax, y: ay, vx: 0, vy: 0};
+    });
+    g.fillStyle = '#07080b'; g.fillRect(0,0,W,H);
+  }
+  const ease = t => t < .5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+  function frame(now){
+    if (!alive) return;
+    const t = now/1000, e = ease(Math.min(1, Math.max(0, prog)));
+    g.fillStyle = REDUCE ? '#07080b' : 'rgba(7,8,11,.34)'; g.fillRect(0,0,W,H);
+    const size = W < 640 ? 1.5 : 1.9;
+    for (const p of P) {
+      const breathe = 1+.018*Math.sin(t*.9+p.ph*.2)*(1-e);
+      const tx = (p.ax-W/2)*breathe+W/2, ty = (p.ay-H*.47)*breathe+H*.47;
+      const gx = tx+(p.bx-tx)*e, gy = ty+(p.by-ty)*e;
+      const dx = p.x-mouse.x, dy = p.y-mouse.y, d2 = dx*dx+dy*dy;
+      if (d2 < 9000) { const f = (9000-d2)/9000*2.2; p.vx += dx/Math.sqrt(d2+1)*f; p.vy += dy/Math.sqrt(d2+1)*f; }
+      if (REDUCE) { p.x = gx; p.y = gy; } else { p.vx += (gx-p.x)*.06; p.vy += (gy-p.y)*.06; p.vx *= .78; p.vy *= .78; p.x += p.vx; p.y += p.vy; }
+      const tw = .55+.45*Math.sin(t*1.7+p.ph);
+      g.fillStyle = p.win ? `rgba(242,196,107,${.55+.45*tw})` : `rgba(125,151,182,${.45+.35*tw})`;
+      g.fillRect(p.x-size/2, p.y-size/2, size, size);
+    }
+  }
+  function onScroll(){
+    const r = root.getBoundingClientRect();
+    prog = Math.min(1, Math.max(0, -r.top/(root.offsetHeight-innerHeight)))*1.25-.15;
+    const p = Math.min(1, Math.max(0, prog));
+    $big.style.opacity = p < .15 ? 1 : 0; $quote.style.opacity = p > .35 ? 1 : 0; $split.style.opacity = p > .7 ? 1 : 0;
+  }
+  if (!REDUCE) addEventListener('scroll', onScroll, {passive: true, signal: sig});
+  cv.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX-r.left; mouse.y = e.clientY-r.top; }, {signal: sig});
+  cv.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9e9; }, {signal: sig});
+  const vis = watch(root, sig, () => { layout(); if (REDUCE) frame(0); });
+  layout();
+  if (REDUCE) { prog = 0; frame(0); }
+  else { onScroll(); let drawn = false; const loop = now => { if (!alive) return; if (vis.visible && (!PAUSED || !drawn)) { frame(now); drawn = true; } requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+};
+
+show(firstPick());
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Noon was my worst hour · weaklearners</title>
+<meta name="description" content="The one pattern in my games that passed the test. Until ten more games came in.">
+<meta property="og:title" content="Noon was my worst hour · weaklearners">
+<meta property="og:description" content="The one pattern in my games that passed the test. Until ten more games came in.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://weaklearners.github.io/writing/noon.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23b3322a'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23f1eadb'%3E%EC%A7%84%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Cormorant+Garamond:wght@400;600&family=IBM+Plex+Mono:wght@400;600&family=Instrument+Serif&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>try{var k=localStorage.getItem('wl-current');if(/^[abc]$/.test(k))document.documentElement.dataset.concept=k}catch(e){}</script>
+<link rel="stylesheet" href="writing.css">
+</head>
+<body>
+<article class="wrap">
+  <nav class="top"><a href="../index.html">← weaklearners</a><span>Writing · 02</span></nav>
+  <h1>Noon was my worst hour. Then I counted.</h1>
+  <p class="dek">The one pattern in my games that passed the test. Until ten more games came in.</p>
+  <p class="meta">Sean · 5 min read · numbers as of September 30, 2026</p>
+
+  <p>I log every Overwatch match I play. That's 3,680 of them since November 2024. One of the things I write down is the hour.</p>
+  <p>For months I was sure about my hours. I played best at 9 AM and 2 PM. I believed it the way people believe in lucky socks. Then I had enough games to check. 2 PM turned out to be one of my worst hours: 45.7% over 223 games.</p>
+  <p>But one hour really did stand out.</p>
+
+  <figure>
+    <svg id="hours" viewBox="0 0 640 300" role="img" aria-label="Win rate by hour from 7 AM to 6 PM. Noon is lowest at 39.5 percent. 5 PM is highest at 56.0 percent. The overall average is 48.34 percent."></svg>
+    <figcaption>Win rate by hour. Hours with 100+ games. Bars start at 30%. Dashed line: my overall 48.34%.</figcaption>
+  </figure>
+
+  <p class="big">At noon I win 39.5% of the time, over 210 games. My overall rate is 48.34%.</p>
+  <p>That's a nine-point gap. It looks enormous.</p>
+
+  <h2>Twelve dice</h2>
+  <p>Here's the problem. I didn't test one hour. I tested twelve.</p>
+  <p>Roll twelve dice. One of them will probably come up low. That doesn't make it a loaded die. If you go looking for the worst of twelve, you will always find one.</p>
+  <p>The fix is called a Bonferroni correction, and it's simple. If you run twelve tests, make each one twelve times harder to pass. The usual bar is a 5% chance of fooling yourself. Split across twelve hours, it becomes:</p>
+  <p class="math">0.05 ÷ 12 = 0.0042</p>
+  <p>A result has to be that unlikely by luck before I call it real.</p>
+
+  <h2>It passed. Then it didn't.</h2>
+  <p>On September 9, noon stood at 77 wins in 200 games. Depending on exactly how I ran the test, it either just cleared the bar or missed it by a hair. I took the pass. I thought I'd found the one real pattern in my data. I even planned a blog post around it.</p>
+  <p>Then I kept playing. Ten more noon games. I won six of them.</p>
+  <div class="stats">
+    <div><b>0.0042</b><span>the bar</span></div>
+    <div><b>0.0105</b><span>noon today</span></div>
+    <div><b>10</b><span>games it took</span></div>
+  </div>
+  <p>Noon now sits at a p-value of about 0.0105. For a single test, that's still unlikely. But it's more than twice the bar. It no longer passes.</p>
+  <p>Nothing about noon changed. Ten games came in, and a borderline result slid back over the line. That's what noise does as the sample grows. The extremes drift back toward the average.</p>
+  <p>The other end of the chart gets the same treatment. 5 PM is my best hour: 56.0% over 182 games. Its p-value is about 0.04. Not proven either.</p>
+
+  <h2>What I actually learned</h2>
+  <p>"It passed the test" is a statement about one sample, on one day. It isn't a permanent fact about the world. A number that clears the bar today can fall back under it next week.</p>
+  <p>So I re-check a finding the day I publish it, not just the day I find it. That includes this post. Every number here was re-run on September 30.</p>
+  <p>And yes, noon is still my lowest hour. 210 games. I still queue it.</p>
+
+  <nav class="next"><span>Next</span><a href="48-42.html">Below half? →</a></nav>
+  <p class="meta foot"><a href="mailto:weaklearners@proton.me">weaklearners@proton.me</a> · <a href="https://github.com/weaklearners">github.com/weaklearners</a></p>
+</article>
+<script>
+(() => {
+  const DATA = [['7a',44.2],['8a',50.0],['9a',50.9],['10a',48.7],['11a',48.3],['12p',39.5],['1p',52.1],['2p',45.7],['3p',48.4],['4p',45.0],['5p',56.0],['6p',47.6]];
+  const BASE = 48.34, LO = 30, HI = 60, L = 44, T = 14, B = 262;
+  const svg = document.getElementById('hours');
+  function draw() {
+    // Build at the real pixel width so one unit is one CSS pixel and the labels stay 11px.
+    const W = Math.round(svg.getBoundingClientRect().width) || 640, R = W - 12;
+    svg.setAttribute('viewBox', `0 0 ${W} 300`);
+    const y = v => B - (v-LO)/(HI-LO)*(B-T), bw = (R-L)/DATA.length;
+    let s = '';
+    for (const g of [30,40,50,60]) s += `<line class="grid" x1="${L}" x2="${R}" y1="${y(g)}" y2="${y(g)}"/><text class="tick" x="${L-8}" y="${y(g)+4}" text-anchor="end">${g}%</text>`;
+    DATA.forEach(([lab,v], i) => {
+      const x = L + i*bw + bw*.18, w = bw*.64, hi = lab === '12p', cx = (x+w/2).toFixed(1);
+      s += `<rect class="bar${hi ? ' hi' : ''}" x="${x.toFixed(1)}" y="${y(v).toFixed(1)}" width="${w.toFixed(1)}" height="${(B-y(v)).toFixed(1)}"/>`;
+      s += `<text class="tick${hi ? ' hi' : ''}" x="${cx}" y="${B+18}" text-anchor="middle">${lab}</text>`;
+      if (hi || lab === '5p') s += `<text class="val" x="${cx}" y="${(y(v)-7).toFixed(1)}" text-anchor="middle">${v}%</text>`;
+    });
+    s += `<line class="base" x1="${L}" x2="${R}" y1="${y(BASE)}" y2="${y(BASE)}"/>`;
+    s += `<text class="tick" x="${R}" y="${y(BASE)-6}" text-anchor="end">${BASE}%</text>`;
+    svg.innerHTML = s;
+  }
+  draw();
+  let lastW = svg.getBoundingClientRect().width, t;
+  addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { const w = svg.getBoundingClientRect().width; if (w !== lastW) { lastW = w; draw(); } }, 200); });
+})();
+</script>
+</body>
+</html>

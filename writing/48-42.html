@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Below half? · weaklearners</title>
+<meta name="description" content="Last week I couldn't prove I was worse than a coin. 41 games later, I can.">
+<meta property="og:title" content="Below half? · weaklearners">
+<meta property="og:description" content="Last week I couldn't prove I was worse than a coin. 41 games later, I can.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://weaklearners.github.io/writing/48-42.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23b3322a'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23f1eadb'%3E%EC%A7%84%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Cormorant+Garamond:wght@400;600&family=IBM+Plex+Mono:wght@400;600&family=Instrument+Serif&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>try{var k=localStorage.getItem('wl-current');if(/^[abc]$/.test(k))document.documentElement.dataset.concept=k}catch(e){}</script>
+<link rel="stylesheet" href="writing.css">
+</head>
+<body>
+<article class="wrap">
+  <nav class="top"><a href="../index.html">← weaklearners</a><span>Writing · 03</span></nav>
+  <h1>Below half?</h1>
+  <p class="dek">Last week I couldn't prove I was worse than a coin. 41 games later, I can.</p>
+  <p class="meta">Sean · 4 min read · numbers as of September 30, 2026</p>
+
+  <p>I've played 3,680 matches of Overwatch since November 2024. I wrote down every one.</p>
+  <div class="stats">
+    <div><b>1,779</b><span>won</span></div>
+    <div><b>1,901</b><span>lost</span></div>
+    <div><b>48.34%</b><span>win rate</span></div>
+  </div>
+
+  <h2>It's supposed to be close to half</h2>
+  <p>Overwatch's matchmaking tries to give you even games. Win a lot, and it finds you tougher opponents. Lose a lot, and it eases off. A system like that pushes everyone toward 50%.</p>
+  <p>So a number near half isn't a verdict on me. It's the machine doing its job.</p>
+
+  <h2>Is my win rate even below half?</h2>
+  <p>It feels below. An even record would be 1,840 wins. I'm 61 short.</p>
+  <p>But run the test. Suppose I really were a coin flip. How often would 3,680 games land this far from half, just by luck?</p>
+  <p class="big">About 4% of the time.</p>
+  <p>The usual bar for "this isn't luck" is 5%. A week ago, at 3,639 games, it was 6% and I missed. 41 games later it's 4.4%. I clear it. Barely.</p>
+
+  <h2>So why log anything?</h2>
+  <p>If the win rate is pinned near half by design, the win rate was never the point. The point was the stories I told myself about it.</p>
+  <p>Gibraltar was "my map," at 68%. Over 147 games it's 55.1%, and across 32 maps no difference survives. I "played best" at 2 PM. It's below my average. Noon looked cursed, until <a href="noon.html">ten more games</a> came in.</p>
+  <p>Every one of those felt true. The record is how I found out they weren't.</p>
+
+  <h2>A weak learner, technically</h2>
+  <p>A <a href="weak-learner.html">weak learner</a> is a rule that's right a bit more than half the time. At 48.34%, I'm not even that.</p>
+  <p>But boosting has a rule for this. When a learner is wrong more than half the time, AdaBoost doesn't throw it out. It flips its vote. A rule that's wrong 51.66% of the time becomes, flipped, a rule that's right 51.66% of the time.</p>
+  <p>So if you ever need a weak learner, bet against me. You'd win 51.66% of the time.</p>
+  <p>Just don't bet much. Last week this same test said 6%.</p>
+
+  <nav class="next"><span>Back to the start</span><a href="weak-learner.html">What a weak learner is →</a></nav>
+  <p class="meta foot"><a href="mailto:weaklearners@proton.me">weaklearners@proton.me</a> · <a href="https://github.com/weaklearners">github.com/weaklearners</a></p>
+</article>
+</body>
+</html>

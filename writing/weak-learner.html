@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What a weak learner is · weaklearners</title>
+<meta name="description" content="Why this site is named after something that's barely better than a coin flip.">
+<meta property="og:title" content="What a weak learner is · weaklearners">
+<meta property="og:description" content="Why this site is named after something that's barely better than a coin flip.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://weaklearners.github.io/writing/weak-learner.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23b3322a'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23f1eadb'%3E%EC%A7%84%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&family=Cormorant+Garamond:wght@400;600&family=IBM+Plex+Mono:wght@400;600&family=Instrument+Serif&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>try{var k=localStorage.getItem('wl-current');if(/^[abc]$/.test(k))document.documentElement.dataset.concept=k}catch(e){}</script>
+<link rel="stylesheet" href="writing.css">
+</head>
+<body>
+<article class="wrap">
+  <nav class="top"><a href="../index.html">← weaklearners</a><span>Writing · 01</span></nav>
+  <h1>What a weak learner is</h1>
+  <p class="dek">Why this site is named after something that's barely better than a coin flip.</p>
+  <p class="meta">Sean · 4 min read</p>
+
+  <p>Picture a hundred people guessing tomorrow's weather. None of them is any good. Each one is right a little more than half the time. Ask any single one, and you might as well flip a coin.</p>
+  <p>Now take a vote. If their mistakes are different mistakes, the wrong guesses scatter. The right ones pile up. The crowd is right far more often than anyone in it.</p>
+  <p>That's the whole trick. In machine learning, each of those people is called a <b>weak learner</b>: a rule that does just a bit better than chance. The classic one is a decision stump. It asks one question, like "is this point left of this line?", and answers yes or no.</p>
+  <p class="big">A vote only works if the mistakes differ. Boosting makes them differ on purpose.</p>
+
+  <h2>How boosting works</h2>
+  <p>Start with one stump. It gets some examples wrong. Before you pick the next stump, make those missed examples count for more. Now the next stump cares most about exactly what the first one missed.</p>
+  <p>Repeat that a few hundred times. Every new stump is hired to fix the team's current worst mistakes.</p>
+  <p>Each stump also gets a vote, sized by how good it was. A stump that's right 51% of the time gets almost no say. One that's right 90% of the time gets a lot. In AdaBoost, the best-known version, the size of the vote is:</p>
+  <p class="math">vote = ½ · ln( (1 − error) / error )<br><br>error 49%  →  vote 0.02<br>error 10%  →  vote 1.10</p>
+  <p>That's 55 times the say for the better stump. Nobody is ignored. Everyone is weighed.</p>
+
+  <h2>Watch it happen</h2>
+  <p>One of the three drawings on the <a href="../index.html#a">front page</a> is this, running live. Every faint straight line is one stump. No single line can draw a letter. All any of them knows is whether a point sits inside my name. Stacked up a few hundred deep, they draw it.</p>
+
+  <h2>The catch</h2>
+  <p>Boosting chases whatever it gets wrong. That's its strength, and its danger. If some examples are just noise, boosting will work hard to explain the noise. It will find patterns that aren't there.</p>
+  <p>I know this from my own data. A pattern I was sure of turned out to be noise, and ten games were enough to show it. That's the <a href="noon.html">next thing I wrote about</a>.</p>
+
+  <h2>Why I named the site after it</h2>
+  <p>Most of my ideas start weak. A hunch about which map I win on. A guess about which hour I play best. On its own, each one is barely better than a coin flip. Some get stronger as the evidence piles up. Most don't.</p>
+  <p>The name is a reminder to keep score, and to let the score decide.</p>
+
+  <nav class="next"><span>Next</span><a href="noon.html">Noon was my worst hour. Then I counted. →</a></nav>
+  <p class="meta foot"><a href="mailto:weaklearners@proton.me">weaklearners@proton.me</a> · <a href="https://github.com/weaklearners">github.com/weaklearners</a></p>
+</article>
+</body>
+</html>
