@@ -71,7 +71,7 @@ a:hover{color:var(--accent)}
 .hero-b .cap span{display:block;font:400 12px/1.8 var(--mono);font-style:normal;color:var(--dim);letter-spacing:.08em;margin-top:10px}
 .hero-b .count{position:absolute;right:24px;bottom:24px;margin:0;font:400 12px/1 var(--mono);color:var(--dim);letter-spacing:.08em;font-variant-numeric:tabular-nums}
 
-/* ---------- hero C: 3,680 ---------- */
+/* ---------- hero C: 2,970 ---------- */
 .hero-c{position:relative;height:180svh}
 .hero-c .stage{position:sticky;top:0;height:100svh;min-height:520px;overflow:hidden}
 .hero-c canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
@@ -99,7 +99,7 @@ h2,.h2{margin:0;font:var(--display-weight) clamp(34px,5.4vw,68px)/1.02 var(--dis
 h2 em,.h2 em{color:var(--accent);font-style:italic}
 .prose{display:grid;gap:14px;max-width:58ch}
 .prose p{margin:0}
-.prose .quiet{color:var(--dim)}
+.prose .quiet,.content p.quiet{color:var(--dim)}
 
 .who-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,5vw,72px);align-items:end}
 .seal{display:inline-grid;place-items:center;width:.9em;height:.9em;margin-left:.18em;vertical-align:.02em;background:#b3322a;color:#f1eadb;
@@ -187,7 +187,7 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
 
 <!-- IDENTITY LINE: edit the sentence below. It shows under all three artworks. -->
 <div class="id-strip">
-  <p class="id-line">Sean. Finishing a master's in computer science. Building on AI models.</p>
+  <p class="id-line">Sean Kim. Looking for a 2027 internship in AI and LLM application engineering.</p>
   <nav class="id-links" aria-label="Site links"><a href="#writing">Writing</a><a href="#contact">Email</a><a href="https://github.com/weaklearners">GitHub</a></nav>
 </div>
 
@@ -197,7 +197,7 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
     <div class="who-grid">
       <h1 class="h2">I'm Sean.<span class="seal" aria-hidden="true">진</span></h1>
       <div class="prose">
-        <p>I'm finishing a master's in computer science. I build software that runs while I'm asleep. And I keep score on myself.</p>
+        <p>I'm studying computer science at WGU. I expect the BS in April 2027 and the MS in October 2027. I build software that runs while I'm asleep. And I keep score on myself.</p>
         <p class="quiet">I'm looking for work building applications on top of AI models.</p>
       </div>
     </div>
@@ -210,20 +210,21 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
     <div class="ledger">
       <div class="row">
         <span class="was">Gibraltar is my map. 68% win rate.</span>
-        <span class="now"><strong>55.1% over 147 games.</strong> The 68% came from a small early sample. Across 32 maps, none of the differences are real.</span>
-        <span class="num">55.1%</span>
+        <span class="now"><strong>54.7% over 117 games.</strong> The 68% came from a small early sample. Across 28 maps, none of the differences survive the test.</span>
+        <span class="num">54.7%</span>
       </div>
       <div class="row">
         <span class="was">I play best at 9 AM and 2 PM.</span>
-        <span class="now"><strong>2 PM is below my average.</strong> 45.7% over 223 games. The story came first. The numbers didn't follow.</span>
-        <span class="num">45.7%</span>
+        <span class="now"><strong>2 PM is below my average.</strong> 46.3% over 190 games. The story came first. The numbers didn't follow.</span>
+        <span class="num">46.3%</span>
       </div>
       <div class="row">
         <span class="was">Noon is my one real bad hour.</span>
-        <span class="now"><strong>Still bad. Not proven.</strong> It passed the test at 200 games. Ten games later, it didn't.</span>
-        <span class="num">p 0.0105</span>
+        <span class="now"><strong>Still bad. Not proven.</strong> 38.1% over 155 games. It passed the test once, in an older count that mixed in practice games. It does not pass now.</span>
+        <span class="num">p 0.015</span>
       </div>
     </div>
+    <p class="quiet">Competitive matches only. Numbers as of October 4, 2026.</p>
   </section>
 
   <section id="loves">
@@ -233,10 +234,11 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
         <h3>Overwatch</h3>
         <p>Every match written down since November 2024. The map, the heroes, the result, who killed me, and how the game felt.</p>
         <div class="figs">
-          <div><b>3,680</b><span>matches</span></div>
+          <div><b>2,970</b><span>competitive matches</span></div>
           <div><b>22</b><span>months</span></div>
-          <div><b>48.34%</b><span>won, sadly</span></div>
+          <div><b>47.81%</b><span>won, sadly</span></div>
         </div>
+        <p class="quiet">Competitive only. As of October 4, 2026.</p>
       </article>
       <article>
         <h3>Explaining things plainly</h3>
@@ -305,12 +307,12 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
 </template>
 
 <template id="t-c">
-  <section class="hero-c" aria-label="Artwork: 3,680 dots, one per Overwatch match">
+  <section class="hero-c" aria-label="Artwork: 2,970 dots, one per competitive Overwatch match">
     <div class="stage">
       <canvas></canvas>
-      <div class="big" data-big>3,680<small>Overwatch matches · every one written down · Nov 2024 – Sep 2026</small></div>
+      <div class="big" data-big>2,970<small>Competitive Overwatch matches · every one written down · Nov 2024 – Oct 2026 · as of Oct 4, 2026</small></div>
       <div class="quote" data-quote>Split them by result, and you get <i>almost a coin flip.</i></div>
-      <div class="split" data-split><div class="w"><b>1,779</b>won</div><div class="l"><b>1,901</b>lost</div></div>
+      <div class="split" data-split><div class="w"><b>1,420</b>won</div><div class="l"><b>1,550</b>lost</div></div>
     </div>
   </section>
 </template>
@@ -322,7 +324,7 @@ const ALL = ['a','b','c'];
 const ABOUT = {
   a: ['Boosting field', 'AdaBoost, running live. Hundreds of random straight cuts, each only slightly better than guessing, are weighted and stacked. All they are trained on is whether a point sits inside the letters of a name. The portrait is the model. Your cursor feeds it more data, so it sharpens wherever you look.'],
   b: ['Ink and paper', 'Each brush stroke follows a weak rule. It lands on the hidden letters only 62% of the time and anywhere else the rest. No single stroke means anything. Thousands of them, on hanji-toned paper in the five traditional colours, resolve into 응, 아니야: “yeah… no.” Every weak learner is a tiny yes-or-no vote, wrong nearly half the time.'],
-  c: ['3,680', 'Every dot is one Overwatch match I logged. Gold for a win, slate for a loss. At rest they form one breathing bloom. Scroll, and they sort into two nearly equal halves: 48.34% won. The order is shuffled, not chronological. A self-portrait as a dataset.']
+  c: ['2,970', 'Every dot is one competitive Overwatch match I logged. Gold for a win, slate for a loss. At rest they form one breathing bloom. Scroll, and they sort into two nearly equal halves: 47.81% won. The order is shuffled, not chronological. A self-portrait as a dataset.']
 };
 
 /* ---------- which artwork: new one each visit, unseen first ---------- */
@@ -602,11 +604,11 @@ INIT.b = (root, sig) => {
   (document.fonts ? document.fonts.load('900 100px "Noto Serif KR"', '응,아니야진') : Promise.resolve()).then(() => { if (alive) reset(); });
 };
 
-/* ================= C · 3,680 ================= */
+/* ================= C · 2,970 ================= */
 INIT.c = (root, sig) => {
   const stage = root.querySelector('.stage'), cv = root.querySelector('canvas'), g = cv.getContext('2d');
   const $big = root.querySelector('[data-big]'), $quote = root.querySelector('[data-quote]'), $split = root.querySelector('[data-split]');
-  const N = 3680, WINS = 1779; // verified totals; the order below is NOT chronological
+  const N = 2970, WINS = 1420; // comp only, stats-snapshot.md as of 2026-10-04; the order below is NOT chronological
   const GA = Math.PI*(3-Math.sqrt(5));
   let W, H, P = [], mouse = {x:-9e9, y:-9e9}, prog = 0, alive = true;
   sig.addEventListener('abort', () => alive = false);
