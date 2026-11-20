@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sean · weaklearners</title>
-<meta name="description" content="Sean. Every idea starts out weak. I keep score until it isn't.">
-<meta property="og:title" content="Sean · weaklearners">
-<meta property="og:description" content="Sean. Every idea starts out weak. I keep score until it isn't.">
+<title>Sean Kim · weaklearners</title>
+<meta name="description" content="Sean Kim. Looking for a 2027 internship in AI and LLM application engineering. Every idea starts out weak. I keep score until it isn't.">
+<meta property="og:title" content="Sean Kim · weaklearners">
+<meta property="og:description" content="Sean Kim. Looking for a 2027 internship in AI and LLM application engineering. Every idea starts out weak. I keep score until it isn't.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://weaklearners.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23b3322a'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23f1eadb'%3E%EC%A7%84%3C/text%3E%3C/svg%3E">
@@ -41,10 +41,9 @@ a:hover{color:var(--accent)}
 .label{font:400 12px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:0}
 
 /* ---------- top bar (over the artwork) ---------- */
-.top{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+.top{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;
   padding:calc(20px + env(safe-area-inset-top,0px)) 24px 0;pointer-events:none}
 .top > *{pointer-events:auto}
-.mark{font:400 12px/1.6 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-decoration:none}
 .rot{display:grid;justify-items:end;gap:6px;position:relative}
 .rot-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .rot button{font:400 12px/1 var(--mono);letter-spacing:.08em;color:var(--dim);background:none;border:1px solid var(--rule);border-radius:99px;padding:8px 12px;cursor:pointer}
@@ -84,12 +83,13 @@ a:hover{color:var(--accent)}
 .hero-c .quote{position:absolute;left:50%;top:16%;transform:translateX(-50%);width:min(620px,calc(100% - 32px));text-align:center;font-size:clamp(24px,3.2vw,38px);line-height:1.2;opacity:0;transition:opacity .5s;pointer-events:none}
 .hero-c .quote i{color:var(--accent)}
 
-/* ---------- identity strip (same under all three artworks) ---------- */
-.id-strip{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px 24px;
-  max-width:1080px;margin:0 auto;padding:20px clamp(16px,5vw,64px);border-bottom:1px solid var(--rule)}
-.id-line{margin:0;font-size:var(--body-size)}
-.id-links{display:flex;gap:20px;font:400 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
-.id-links a{padding-block:10px}
+/* ---------- placard: name, role, links (same over all three artworks) ---------- */
+.placard{display:grid;gap:8px;width:max-content;max-width:100%;padding:24px;
+  background:color-mix(in srgb,var(--panel) 88%,transparent);border:1px solid var(--rule)}
+.placard-name{margin:0;font:var(--display-weight) clamp(26px,3vw,34px)/1.05 var(--display);letter-spacing:var(--display-track)}
+.placard-role{margin:0;max-width:40ch;font-size:var(--body-size);line-height:1.35}
+.placard-links{display:flex;flex-wrap:wrap;column-gap:20px;margin-top:4px;font:400 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.placard-links a{display:inline-flex;align-items:center;justify-content:center;min-height:32px}
 
 /* ---------- content ---------- */
 .content{padding-inline:clamp(16px,5vw,64px)}
@@ -121,6 +121,17 @@ h2 em,.h2 em{color:var(--accent);font-style:italic}
 .figs div{display:grid;gap:2px}
 .figs b{font:400 22px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--fg)}
 .figs span{font:400 12px/1.4 var(--mono);color:var(--dim);letter-spacing:.04em}
+.work{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.work-card{grid-row:span 4;display:grid;grid-template-rows:subgrid;row-gap:12px;align-content:start;min-width:0;
+  background:var(--bg);padding:clamp(20px,3vw,32px);text-decoration:none;transition:background-color .2s,color .2s}
+.work-card h3{margin:0;font:var(--display-weight) clamp(26px,3vw,34px)/1.05 var(--display);letter-spacing:var(--display-track)}
+.work-card p{margin:0}
+.work-go{font:400 12px/1 var(--mono);letter-spacing:.1em;color:var(--dim);text-transform:uppercase;align-self:end}
+a.work-card:hover,a.work-card:focus-visible{background:var(--panel);color:var(--fg)} /* keeps the global a:hover accent off the sentence */
+a.work-card:hover h3,a.work-card:hover .work-go,a.work-card:focus-visible h3,a.work-card:focus-visible .work-go{color:var(--accent)}
+a.work-card:focus-visible{outline-offset:-2px}
+.work-more{display:flex;flex-wrap:wrap;gap:12px 28px;margin:0}
+.work-more a{display:inline-flex;align-items:center;font:400 13px/1 var(--mono);letter-spacing:.04em}
 
 .pieces{display:grid;border-top:1px solid var(--fg)}
 .piece{display:grid;grid-template-columns:3ch minmax(0,1fr) auto;gap:clamp(12px,3vw,32px);padding-block:22px;border-bottom:1px solid var(--rule);text-decoration:none;align-items:baseline}
@@ -142,14 +153,14 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
   font:400 12px/1.6 var(--mono);letter-spacing:.08em;color:var(--dim);border-top:1px solid var(--rule)}
 
 @media (max-width:760px){
-  .who-grid,.loves{grid-template-columns:minmax(0,1fr)}
+  .who-grid,.loves,.work{grid-template-columns:minmax(0,1fr)}
   .row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"was num" "now now";gap:6px 16px}
   .row .was{grid-area:was}.row .now{grid-area:now}.row .num{grid-area:num}
   .piece{grid-template-columns:3ch minmax(0,1fr)}
   .piece .go{display:none}
 }
 @media (max-width:640px){
-  .top{padding-inline:16px}
+  .top{padding-inline:16px}.rot{order:-1;flex-basis:100%}.placard{width:auto;flex-basis:100%;padding:16px}.placard-links{column-gap:12px}
   .rot .long{display:none}
   .hero-a .stats,.hero-a .hint,.hero-b .vert,.hero-b .count{display:none}
   .hero-a .hud,.hero-b .cap,.hero-c .big{left:16px;right:16px;bottom:16px}
@@ -160,7 +171,7 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
 .hero-a .hud::before,.hero-b .cap::before{content:"";position:absolute;inset:-48px -24px -26px;z-index:-1;
   background:linear-gradient(to top,var(--bg) 35%,transparent)}
 .hero-a .hud,.hero-b .cap{isolation:isolate}
-@media (pointer:coarse){.rot button,.contact button{min-height:44px}}
+@media (pointer:coarse){.rot button,.contact button,.placard-links a,.work-more a{min-height:44px}.placard-links a{min-width:44px}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important}
   .hero-c{height:100svh}
@@ -171,7 +182,13 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
 <body>
 
 <header class="top">
-  <a class="mark" href="#who">weaklearners</a>
+  <div class="placard">
+    <p class="label">weaklearners</p>
+    <h1 class="placard-name">Sean Kim</h1>
+    <p class="placard-role">Looking for a 2027 internship in AI and LLM application engineering.</p>
+    <!-- RESUME LINK GOES HERE: <a href="Sean-Kim-Resume.pdf" type="application/pdf">Resume</a> after Work. Not linked yet: the PDF is stale and Sean decides. -->
+    <nav class="placard-links" aria-label="Site links"><a href="#work">Work</a><a href="#writing">Writing</a><a href="#contact">Email</a><a href="https://github.com/weaklearners">GitHub</a></nav>
+  </div>
   <div class="rot">
     <div class="rot-row">
       <span class="count" id="count">1 of 3</span>
@@ -185,22 +202,43 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
 
 <div id="hero"></div>
 
-<!-- IDENTITY LINE: edit the sentence below. It shows under all three artworks. -->
-<div class="id-strip">
-  <p class="id-line">Sean Kim. Looking for a 2027 internship in AI and LLM application engineering.</p>
-  <nav class="id-links" aria-label="Site links"><a href="#writing">Writing</a><a href="#contact">Email</a><a href="https://github.com/weaklearners">GitHub</a></nav>
-</div>
-
 <main class="content">
   <section id="who">
     <p class="label">Who I am</p>
     <div class="who-grid">
-      <h1 class="h2">I'm Sean.<span class="seal" aria-hidden="true">진</span></h1>
+      <h2 class="h2">I'm Sean Kim.<span class="seal" aria-hidden="true">진</span></h2>
       <div class="prose">
         <p>I'm studying computer science at WGU. I expect the BS in April 2027 and the MS in October 2027. I build software that runs while I'm asleep. And I keep score on myself.</p>
-        <p class="quiet">I'm looking for work building applications on top of AI models.</p>
+        <p class="quiet">I'm looking for a 2027 internship building applications on top of AI models. That means AI and LLM application engineering, with backend and full-stack work as the floor.</p>
       </div>
     </div>
+  </section>
+
+  <section id="work">
+    <p class="label">Work</p>
+    <div class="prose"><p>Three things I built that run. Two have public code.</p></div>
+    <div class="work">
+      <a class="work-card" href="https://github.com/weaklearners/overwatch-tracker">
+        <h3>Overwatch match tracker</h3>
+        <p>I built it to log my own games. Then I used it to kill my own theories.</p>
+        <div class="figs"><div><b>2,970</b><span>competitive matches, Oct 2026</span></div></div>
+        <span class="work-go">Code on GitHub →</span>
+      </a>
+      <a class="work-card" href="https://github.com/weaklearners/nfl-props">
+        <h3>nfl-props</h3>
+        <p>A prop-ranking experiment that failed twice. The README shows how I found each failure.</p>
+        <div class="figs"><div><b>726 bets</b><span>Top third 61.0%, bottom 61.9%</span></div></div>
+        <span class="work-go">Code on GitHub →</span>
+      </a>
+      <article class="work-card">
+        <h3>A team of AI agents that works while I sleep</h3>
+        <p>Scheduled agents on three model tiers do research and drafts. Nothing goes out under my name until I say yes.</p>
+        <div class="figs"><div><b>600+</b><span>runs, as of November 2026</span></div></div>
+        <span class="work-go">Private code. Ask me about it.</span>
+      </article>
+    </div>
+    <!-- RESUME LINK GOES HERE: <a href="Sean-Kim-Resume.pdf" type="application/pdf">Resume (PDF) →</a> in .work-more. Not linked yet: the PDF is stale and Sean decides. -->
+    <p class="work-more"><a href="https://github.com/weaklearners">All code on GitHub →</a></p>
   </section>
 
   <section id="think">
