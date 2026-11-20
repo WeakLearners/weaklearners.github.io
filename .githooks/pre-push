@@ -1,0 +1,12 @@
+#!/bin/sh
+# Refuse a push when the Overwatch numbers on index.html differ from the tracker database.
+root="$(git rev-parse --show-toplevel)"
+python3 "$root/tools/update_stats.py" --check
+rc=$?
+case $rc in
+  0) exit 0 ;;
+  3) echo "pre-push: database missing, number check skipped."; exit 0 ;;
+  *) echo "pre-push: push refused. Run: python3 tools/update_stats.py   then commit the result."
+     echo "(If it reports a false sentence, rewrite that text first. Skip once with: git push --no-verify)"
+     exit 1 ;;
+esac

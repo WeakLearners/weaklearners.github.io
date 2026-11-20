@@ -70,7 +70,7 @@ a:hover{color:var(--accent)}
 .hero-b .cap span{display:block;font:400 12px/1.8 var(--mono);font-style:normal;color:var(--dim);letter-spacing:.08em;margin-top:10px}
 .hero-b .count{position:absolute;right:24px;bottom:24px;margin:0;font:400 12px/1 var(--mono);color:var(--dim);letter-spacing:.08em;font-variant-numeric:tabular-nums}
 
-/* ---------- hero C: 2,970 ---------- */
+/* ---------- hero C ---------- */
 .hero-c{position:relative;height:180svh}
 .hero-c .stage{position:sticky;top:0;height:100svh;min-height:520px;overflow:hidden}
 .hero-c canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
@@ -221,7 +221,7 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
       <a class="work-card" href="https://github.com/weaklearners/overwatch-tracker">
         <h3>Overwatch match tracker</h3>
         <p>I built it to log my own games. Then I used it to kill my own theories.</p>
-        <div class="figs"><div><b>2,970</b><span>competitive matches, Oct 2026</span></div></div>
+        <div class="figs"><div><b><span data-stat="comp_matches">2,970</span></b><span>competitive matches, <span data-stat="range_end_mon">Oct 2026</span></span></div></div>
         <span class="work-go">Code on GitHub →</span>
       </a>
       <a class="work-card" href="https://github.com/weaklearners/nfl-props">
@@ -246,23 +246,23 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
     <h2>Every idea starts out <em>weak.</em> I keep score until it gets strong, or a number kills it.</h2>
     <div class="prose"><p class="quiet">I keep a list. A belief goes on it the day the data stops agreeing with me.</p></div>
     <div class="ledger">
-      <div class="row">
+      <div class="row" data-claim="gib_above_avg" data-claim-value="true" data-claim2="no_map_survives" data-claim2-value="true">
         <span class="was">Gibraltar is my map. 68% win rate.</span>
-        <span class="now"><strong>54.7% over 117 games.</strong> The 68% came from a small early sample. Across 28 maps, none of the differences survive the test.</span>
-        <span class="num">54.7%</span>
+        <span class="now"><strong><span data-stat="gib_rate">54.7</span>% over <span data-stat="gib_n">117</span> games.</strong> The 68% came from a small early sample. Across <span data-stat="maps_tested">28</span> maps, none of the differences survive the test.</span>
+        <span class="num"><span data-stat="gib_rate">54.7</span>%</span>
       </div>
-      <div class="row">
+      <div class="row" data-claim="hour14_near_avg" data-claim-value="true">
         <span class="was">I play best at 9 AM and 2 PM.</span>
-        <span class="now"><strong>2 PM is below my average.</strong> 46.3% over 190 games. The story came first. The numbers didn't follow.</span>
-        <span class="num">46.3%</span>
+        <span class="now"><strong>2 PM is right at my average.</strong> <span data-stat="hour14_rate">46.3</span>% over <span data-stat="hour14_n">190</span> games, against <span data-stat="comp_rate_1">47.8</span>% overall. The story came first. The numbers didn't follow.</span>
+        <span class="num"><span data-stat="hour14_rate">46.3</span>%</span>
       </div>
-      <div class="row">
+      <div class="row" data-claim="noon_below_avg" data-claim-value="true" data-claim2="no_hour_survives" data-claim2-value="true">
         <span class="was">Noon is my one real bad hour.</span>
-        <span class="now"><strong>Still bad. Not proven.</strong> 38.1% over 155 games. It passed the test once, in an older count that mixed in practice games. It does not pass now.</span>
-        <span class="num">p 0.015</span>
+        <span class="now"><strong>Still bad. Not proven.</strong> <span data-stat="noon_rate">38.1</span>% over <span data-stat="noon_n">155</span> games. It passed the test once, in an older count that mixed in practice games. It does not pass now.</span>
+        <span class="num">p <span data-stat="noon_p">0.015</span></span>
       </div>
     </div>
-    <p class="quiet">Competitive matches only. Numbers as of October 4, 2026.</p>
+    <p class="quiet">Competitive matches only. Numbers as of <span data-stat="asof_long">October 4, 2026</span>.</p>
   </section>
 
   <section id="loves">
@@ -272,11 +272,11 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
         <h3>Overwatch</h3>
         <p>Every match written down since November 2024. The map, the heroes, the result, who killed me, and how the game felt.</p>
         <div class="figs">
-          <div><b>2,970</b><span>competitive matches</span></div>
-          <div><b>22</b><span>months</span></div>
-          <div><b>47.81%</b><span>won, sadly</span></div>
+          <div><b><span data-stat="comp_matches">2,970</span></b><span>competitive matches</span></div>
+          <div><b><span data-stat="months">22</span></b><span>months</span></div>
+          <div><b><span data-stat="comp_rate">47.81</span>%</b><span>won, sadly</span></div>
         </div>
-        <p class="quiet">Competitive only. As of October 4, 2026.</p>
+        <p class="quiet">Competitive only. As of <span data-stat="asof_long">October 4, 2026</span>.</p>
       </article>
       <article>
         <h3>Explaining things plainly</h3>
@@ -345,12 +345,12 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
 </template>
 
 <template id="t-c">
-  <section class="hero-c" aria-label="Artwork: 2,970 dots, one per competitive Overwatch match">
+  <section class="hero-c" aria-label="Artwork: one dot for each competitive Overwatch match">
     <div class="stage">
       <canvas></canvas>
-      <div class="big" data-big>2,970<small>Competitive Overwatch matches · every one written down · Nov 2024 – Oct 2026 · as of Oct 4, 2026</small></div>
+      <div class="big" data-big><span data-stat="comp_matches">2,970</span><small>Competitive Overwatch matches · every one written down · Nov 2024 – <span data-stat="range_end_mon">Oct 2026</span> · as of <span data-stat="asof_short">Oct 4, 2026</span></small></div>
       <div class="quote" data-quote>Split them by result, and you get <i>almost a coin flip.</i></div>
-      <div class="split" data-split><div class="w"><b>1,420</b>won</div><div class="l"><b>1,550</b>lost</div></div>
+      <div class="split" data-split><div class="w"><b><span data-stat="comp_wins">1,420</span></b>won</div><div class="l"><b><span data-stat="comp_losses">1,550</span></b>lost</div></div>
     </div>
   </section>
 </template>
@@ -359,10 +359,13 @@ footer{max-width:1080px;margin:0 auto;padding:32px clamp(16px,5vw,64px) calc(48p
 (() => {
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ALL = ['a','b','c'];
+/* @stats:begin (rewritten by tools/update_stats.py) */
+const STAT = {matches: 2970, wins: 1420, rate: '47.81'};
+/* @stats:end */
 const ABOUT = {
   a: ['Boosting field', 'AdaBoost, running live. Hundreds of random straight cuts, each only slightly better than guessing, are weighted and stacked. All they are trained on is whether a point sits inside the letters of a name. The portrait is the model. Your cursor feeds it more data, so it sharpens wherever you look.'],
   b: ['Ink and paper', 'Each brush stroke follows a weak rule. It lands on the hidden letters only 62% of the time and anywhere else the rest. No single stroke means anything. Thousands of them, on hanji-toned paper in the five traditional colours, resolve into 응, 아니야: “yeah… no.” Every weak learner is a tiny yes-or-no vote, wrong nearly half the time.'],
-  c: ['2,970', 'Every dot is one competitive Overwatch match I logged. Gold for a win, slate for a loss. At rest they form one breathing bloom. Scroll, and they sort into two nearly equal halves: 47.81% won. The order is shuffled, not chronological. A self-portrait as a dataset.']
+  c: [STAT.matches.toLocaleString('en-US'), `Every dot is one competitive Overwatch match I logged. Gold for a win, slate for a loss. At rest they form one breathing bloom. Scroll, and they sort into two nearly equal halves: ${STAT.rate}% won. The order is shuffled, not chronological. A self-portrait as a dataset.`]
 };
 
 /* ---------- which artwork: new one each visit, unseen first ---------- */
@@ -642,11 +645,11 @@ INIT.b = (root, sig) => {
   (document.fonts ? document.fonts.load('900 100px "Noto Serif KR"', '응,아니야진') : Promise.resolve()).then(() => { if (alive) reset(); });
 };
 
-/* ================= C · 2,970 ================= */
+/* ================= C · match dots ================= */
 INIT.c = (root, sig) => {
   const stage = root.querySelector('.stage'), cv = root.querySelector('canvas'), g = cv.getContext('2d');
   const $big = root.querySelector('[data-big]'), $quote = root.querySelector('[data-quote]'), $split = root.querySelector('[data-split]');
-  const N = 2970, WINS = 1420; // comp only, stats-snapshot.md as of 2026-10-04; the order below is NOT chronological
+  const N = STAT.matches, WINS = STAT.wins; // comp only, from the STAT block; the order below is NOT chronological
   const GA = Math.PI*(3-Math.sqrt(5));
   let W, H, P = [], mouse = {x:-9e9, y:-9e9}, prog = 0, alive = true;
   sig.addEventListener('abort', () => alive = false);
