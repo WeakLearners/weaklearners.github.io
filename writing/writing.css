@@ -6,9 +6,7 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121110;--fg:#ece8df;--dim:#9a9486;--accent:#ff7a4d;--rule:#2c2925;--panel:#1b1917;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#121110;--fg:#ece8df;--dim:#9a9486;--accent:#ff7a4d;--rule:#2c2925;--panel:#1b1917;color-scheme:dark}
-/* The home page stores which artwork the visitor drew. These blocks carry over its accent, display font and light or dark. */
-:root[data-concept="a"]{--bg:#121110;--fg:#ece8df;--dim:#9a9486;--accent:#ff7a4d;--rule:#2c2925;--panel:#1b1917;color-scheme:dark}
-:root[data-concept="b"]{--bg:#f1eadb;--fg:#1b1916;--dim:#6f675a;--accent:#b3322a;--rule:rgba(27,25,22,.16);--panel:#e9e0cb;--display:"Cormorant Garamond",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:light}
+/* One look site-wide (match dots): the pages set data-concept="c" and take its palette. */
 :root[data-concept="c"]{--bg:#07080b;--fg:#eceae4;--dim:#7d8392;--accent:#f2c46b;--rule:#1d212a;--panel:#0e1016;--display:"Instrument Serif",Georgia,serif;--mono:"Space Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg)}
@@ -41,6 +39,5 @@ figcaption{font:400 12px/1.6 var(--mono);color:var(--dim)}
 .next span{font:400 11px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 .next a{font:900 26px/1.15 var(--display);letter-spacing:-.01em;text-decoration:none}
 .wrap > .meta.foot{border-bottom:0;padding-bottom:0;margin-top:8px}
-:root[data-concept="b"] h1,:root[data-concept="b"] .next a{font-weight:600}
 :root[data-concept="c"] h1,:root[data-concept="c"] .next a{font-weight:400}
 @media (max-width:480px){body{font-size:18px}}
