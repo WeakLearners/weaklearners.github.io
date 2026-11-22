@@ -36,8 +36,8 @@
 
   <h2>Twelve dice</h2>
   <p>Here's the problem. I didn't test one hour. I tested twelve.</p>
-  <p>Roll twelve dice. One of them will probably come up low. That doesn't make it a loaded die. If you go looking for the worst of twelve, you will always find one.</p>
-  <p>The fix is called a Bonferroni correction, and it's simple. If you run twelve tests, make each one twelve times harder to pass. The usual bar is a 5% chance of fooling yourself. Split across twelve hours, it becomes:</p>
+  <p>Roll twelve dice. One of them will probably come up low. That doesn't make it a loaded die. If you go looking for the worst of twelve, you will nearly always find one.</p>
+  <p>One common fix is a Bonferroni correction. It is simple, and it is strict. If you run twelve tests, make each one twelve times harder to pass. The usual bar is a 5% chance of fooling yourself. Split across twelve hours, it becomes:</p>
   <p class="math">0.05 ÷ 12 = 0.0042</p>
   <p>A result has to be that unlikely by luck before I call it real.</p>
 
@@ -50,7 +50,7 @@
     <div><b>10</b><span>games it took</span></div>
   </div>
   <p>Noon now sits at a p-value of about 0.0105. For a single test, that's still unlikely. But it's more than twice the bar. It no longer passes.</p>
-  <p>Nothing about noon changed. Ten games came in, and a borderline result slid back over the line. That's what noise does as the sample grows. The extremes drift back toward the average.</p>
+  <p>As far as I can tell, nothing about noon changed. Ten games came in, and a borderline result slid back over the line. That is what noise can look like as the sample grows. The extremes drift back toward the average.</p>
   <p>The other end of the chart gets the same treatment. 5 PM is my best hour: 56.0% over 182 games. Its p-value is about 0.04. Not proven either.</p>
 
   <h2>What I actually learned</h2>
